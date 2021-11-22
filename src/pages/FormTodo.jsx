@@ -42,18 +42,10 @@ class FormPage extends React.Component {
         })
     }
 
-    handleInputDate = (event) => {
-        let value = event.target.value
-        console.log(value)
-        this.setState({ date: value })
+    handleInput = (value, propState) => {
+        console.log(value, propState)
+        this.setState({ [propState]: value })
     }
-
-    handleInputTodo = (event) => {
-        let value = event.target.value
-        console.log(value)
-        this.setState({ todo: value })
-    }
-
 
     render() {
         //    console.log( this.posisi)
@@ -62,11 +54,11 @@ class FormPage extends React.Component {
                 <form className="col-md-2">
                     <div className="form-group">
                         <label for="exampleInputPassword1">Date</label>
-                        <input type="date" className="form-control" id="exampleInputPassword1" onChange={this.handleInputDate} />
+                        <input type="date" className="form-control" id="exampleInputPassword1" onChange={(event) => this.handleInput(event.target.value, "date")} />
                     </div>
                     <div className="form-group">
                         <label for="exampleInputPassword1">To Do</label>
-                        <input type="text" className="form-control" id="exampleInputPassword1" onChange={this.handleInputTodo} />
+                        <input type="text" className="form-control" id="exampleInputPassword1" onChange={(event) => this.handleInput(event.target.value, "todo")} />
                     </div>
                     <div className="form-group">
                         <label for="exampleInputPassword1">Location</label>
