@@ -9,6 +9,7 @@ class FormPage extends React.Component {
             todo: "",
             location: "",
             note: "",
+            selectedIdx: null,
             todoList: [
                 {
                     id: 1,
@@ -23,22 +24,64 @@ class FormPage extends React.Component {
     }
 
     btSubmit = () => {
-        alert(`${this.state.date} ${this.state.todo}`)
+        let { date, todo, location, note, todoList } = this.state; // destructure
+        let temp = [...todoList]; // spread operator
+        temp.push({
+            // id: temp[temp.length - 1].id + 1
+            id: temp.length + 1,
+            date,
+            todo,
+            location,
+            note,
+            status: "ongoing"
+        })
 
+        this.setState({ todoList: temp })
+    }
+
+    btDelete = (idx) => {
+        let temp = [...this.state.todoList]
+        temp.splice(idx, 1)
+        this.setState({ todoList: temp })
+    }
+
+    btEdit = (idx) => {
+        this.setState({ selectedIdx: idx })
     }
 
     printData = () => {
         return this.state.todoList.map((value, index) => {
-            return (
-                <tr>
-                    <td>{index + 1}</td>
-                    <td>{value.date}</td>
-                    <td>{value.todo}</td>
-                    <td><img src={value.location} width="50%" alt="..." /></td>
-                    <td>{value.note}</td>
-                    <td>{value.status}</td>
-                </tr>
-            )
+            if (this.state.selectedIdx == index) {
+                return (
+                    <tr>
+                        <td>{index + 1}</td>
+                        <td><input type="date" defaultValue={value.date} /></td>
+                        <td><input type="text" defaultValue={value.todo} /></td>
+                        <td><input type="text" defaultValue={value.location} /></td>
+                        <td><input type="text" defaultValue={value.note} /></td>
+                        <td><input type="text" defaultValue={value.status} /></td>
+                        <td>
+                            <button className="btn btn-danger" type="button" onClick={() => this.setState({ selectedIdx: null })}>Cancel</button>
+                            <button className="btn btn-warning" type="button">Save</button>
+                        </td>
+                    </tr>
+                )
+            } else {
+                return (
+                    <tr>
+                        <td>{index + 1}</td>
+                        <td>{value.date}</td>
+                        <td>{value.todo}</td>
+                        <td><img src={value.location} width="50%" alt="..." /></td>
+                        <td>{value.note}</td>
+                        <td>{value.status}</td>
+                        <td>
+                            <button className="btn btn-danger" type="button" onClick={() => this.btDelete(index)}>Delete</button>
+                            <button className="btn btn-warning" type="button" onClick={() => this.btEdit(index)}>Edit</button>
+                        </td>
+                    </tr>
+                )
+            }
         })
     }
 
@@ -54,19 +97,27 @@ class FormPage extends React.Component {
                 <form className="col-md-2">
                     <div className="form-group">
                         <label for="exampleInputPassword1">Date</label>
-                        <input type="date" className="form-control" id="exampleInputPassword1" onChange={(event) => this.handleInput(event.target.value, "date")} />
+                        <input type="date" className="form-control" id="exampleInputPassword1"
+                            onChange={(event) => this.handleInput(event.target.value, "date")}
+                        />
                     </div>
                     <div className="form-group">
                         <label for="exampleInputPassword1">To Do</label>
-                        <input type="text" className="form-control" id="exampleInputPassword1" onChange={(event) => this.handleInput(event.target.value, "todo")} />
+                        <input type="text" className="form-control" id="exampleInputPassword1"
+                            onChange={(event) => this.handleInput(event.target.value, "todo")}
+                        />
                     </div>
                     <div className="form-group">
                         <label for="exampleInputPassword1">Location</label>
-                        <input type="text" className="form-control" id="exampleInputPassword1" />
+                        <input type="text" className="form-control" id="exampleInputPassword1"
+                            onChange={(event) => this.handleInput(event.target.value, "location")}
+                        />
                     </div>
                     <div className="form-group">
                         <label for="exampleInputPassword1">Note</label>
-                        <textarea className="form-control" id="exampleInputPassword1" />
+                        <textarea className="form-control" id="exampleInputPassword1"
+                            onChange={(event) => this.handleInput(event.target.value, "note")}
+                        />
                     </div>
                     <button type='button' className="btn btn-primary" onClick={this.btSubmit}>Submit</button>
                 </form>
