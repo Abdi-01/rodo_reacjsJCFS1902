@@ -5,6 +5,7 @@ class ModalEdit extends React.Component {
         super(props);
         this.state = {}
     }
+
     render() {
         return (
             <div>
@@ -47,7 +48,7 @@ class ModalEdit extends React.Component {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={this.props.btCancel}>Cancel</button>
-                                <button type="button" className="btn btn-primary" >Save</button>
+                                <button type="button" className="btn btn-primary" onClick={this.props.btSave}>Save</button>
                             </div>
                         </div>
                     </div>

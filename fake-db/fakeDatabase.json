@@ -3,9 +3,9 @@
     {
       "id": 1,
       "date": "20/11/2021",
-      "todo": "Intro ReactJS",
+      "todo": "Make Todo App",
       "location": "https://media.istockphoto.com/photos/protective-face-masks-and-hand-sanitizers-on-the-desks-according-to-picture-id1290836478",
-      "note": "Prepare VSCode, Node js and CRA",
+      "note": "Prepare VSCode, Node js and CRA, Axios",
       "status": "Done"
     },
     {
@@ -31,22 +31,6 @@
       "note": "jam 16.00",
       "status": "on going",
       "id": 4
-    },
-    {
-      "date": "2021-11-29",
-      "todo": "Test",
-      "location": "test",
-      "note": "test",
-      "status": "on going",
-      "id": 5
-    },
-    {
-      "date": "2021-12-02",
-      "todo": "COba",
-      "location": "coba",
-      "note": "cobacoba",
-      "status": "on going",
-      "id": 6
     }
   ]
 }

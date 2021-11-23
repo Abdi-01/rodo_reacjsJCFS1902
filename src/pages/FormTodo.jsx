@@ -67,9 +67,12 @@ class FormPage extends React.Component {
     }
 
     btDelete = (idx) => {
-        let temp = [...this.state.todoList]
-        temp.splice(idx, 1)
-        this.setState({ todoList: temp })
+        axios.delete(`http://localhost:2000/todoList/${this.state.todoList[idx].id}`)
+            .then((response) => {
+                this.getData()
+            }).catch((err) => {
+                console.log(err)
+            })
     }
 
     btEdit = (idx) => {
@@ -100,6 +103,30 @@ class FormPage extends React.Component {
         this.setState({ [propState]: value })
     }
 
+    btSave = () => {
+        let { date, todo, location, note, todoList, selectedIdx } = this.state
+        console.log(date, todo, location, note)
+        let editData = {
+            date: date == "" ? todoList[selectedIdx].date : date,
+            todo: todo == "" ? todoList[selectedIdx].todo : todo,
+            location: location == "" ? todoList[selectedIdx].location : location,
+            note: note == "" ? todoList[selectedIdx].note : note
+        }
+
+        axios.patch(`http://localhost:2000/todoList/${todoList[selectedIdx].id}`, editData)
+            .then((response) => {
+                this.getData()
+                this.setState({
+                    date: "",
+                    todo: "",
+                    location: "",
+                    note: "",
+                    selectedIdx: null
+                })
+            }).catch((err) => {
+                console.log(err)
+            })
+    }
 
     // 2. urutan kedua 
     render() {
@@ -122,7 +149,9 @@ class FormPage extends React.Component {
                             todo={this.state.todoList[this.state.selectedIdx].todo}
                             location={this.state.todoList[this.state.selectedIdx].location}
                             note={this.state.todoList[this.state.selectedIdx].note}
+                            handleInput={this.handleInput}
                             btCancel={() => this.setState({ selectedIdx: null })}
+                            btSave={this.btSave}
                         />
                         : null
                 }
