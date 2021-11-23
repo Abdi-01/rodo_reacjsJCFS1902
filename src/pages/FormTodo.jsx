@@ -2,6 +2,7 @@ import React from 'react';
 import TableData from '../components/TableData';
 import axios from "axios";
 import ModalAdd from '../components/ModalAdd';
+import ModalEdit from '../components/ModalEdit';
 
 class FormPage extends React.Component {
     // 1. urutan render pertama compoenent react
@@ -87,7 +88,7 @@ class FormPage extends React.Component {
                     <td>{value.status}</td>
                     <td>
                         <button className="btn btn-danger" type="button" onClick={() => this.btDelete(index)}>Delete</button>
-                        <button className="btn btn-warning" type="button" onClick={() => this.btEdit(index)} data-toggle="modal" data-target="#editModal">Edit</button>
+                        <button className="btn btn-warning" type="button" data-toggle="modal" data-target="#editModal" onClick={() => this.btEdit(index)}>Edit</button>
                     </td>
                 </tr>
             )
@@ -116,50 +117,14 @@ class FormPage extends React.Component {
                 {/* Modal Edit */}
                 {
                     this.state.todoList.length > 0 && this.state.selectedIdx != null ?
-                        <div className="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-                            <div className="modal-dialog">
-                                <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h5 className="modal-title" id="editModalLabel">Add Product</h5>
-                                        <button type="button" className="btn btn-outline-secondary close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button>
-                                    </div>
-                                    <div className="modal-body">
-                                        <form >
-                                            <div className="form-group">
-                                                <label for="exampleInputPassword1">Date</label>
-                                                <input type="date" className="form-control" id="exampleInputPassword1"
-                                                    defaultValue={this.state.todoList[this.state.selectedIdx].date} onChange={(event) => this.props.handleInput(event.target.value, "date")}
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label for="exampleInputPassword1">To Do</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1"
-                                                    defaultValue={this.state.todoList[this.state.selectedIdx].todo} onChange={(event) => this.props.handleInput(event.target.value, "todo")}
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label for="exampleInputPassword1">Location</label>
-                                                <input type="text" className="form-control" id="exampleInputPassword1"
-                                                    defaultValue={this.state.todoList[this.state.selectedIdx].location} onChange={(event) => this.props.handleInput(event.target.value, "location")}
-                                                />
-                                            </div>
-                                            <div className="form-group">
-                                                <label for="exampleInputPassword1">Note</label>
-                                                <textarea className="form-control" id="exampleInputPassword1"
-                                                    defaultValue={this.state.todoList[this.state.selectedIdx].note} onChange={(event) => this.props.handleInput(event.target.value, "note")}
-                                                />
-                                            </div>
-                                        </form>
-                                    </div>
-                                    <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick={() => this.setState({ selectedIdx: null })}>Cancel</button>
-                                        <button type="button" className="btn btn-primary" >Save</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> : null
+                        <ModalEdit
+                            date={this.state.todoList[this.state.selectedIdx].date}
+                            todo={this.state.todoList[this.state.selectedIdx].todo}
+                            location={this.state.todoList[this.state.selectedIdx].location}
+                            note={this.state.todoList[this.state.selectedIdx].note}
+                            btCancel={() => this.setState({ selectedIdx: null })}
+                        />
+                        : null
                 }
                 <TableData cetak={this.printData()}>
                     {this.printData()}
